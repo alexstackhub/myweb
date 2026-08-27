@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>forgive me? 🥺 (for Deola)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fraunces:ital,wght@0,400;0,600;0,900;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#241220;
+    --bg-deep-2:#170b15;
+    --paper:#fbeee0;
+    --paper-shadow:#e6d3ba;
+    --rose:#e8607d;
+    --rose-dark:#c8415e;
+    --gold:#e3b23c;
+    --gold-soft:#f1cf7c;
+    --ink:#3a2432;
+    --muted:#8a6b78;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    height:100%;
+    margin:0;
+  }
+
+  body{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:
+      radial-gradient(circle at 18% 15%, rgba(232,96,125,0.25), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(227,178,60,0.18), transparent 40%),
+      radial-gradient(circle at 50% 100%, rgba(232,96,125,0.12), transparent 55%),
+      linear-gradient(160deg, var(--bg-deep), var(--bg-deep-2));
+    font-family:'Fraunces', serif;
+    overflow:hidden;
+    position:relative;
+  }
+
+  .stage{
+    position:relative;
+    width:100%;
+    display:flex;
+    justify-content:center;
+  }
+
+  /* ---------- card ---------- */
+
+  .card{
+    position:relative;
+    width:min(92vw, 460px);
+    min-height:480px;
+    background:var(--paper);
+    border-radius:6px 90px 6px 90px / 90px 6px 90px 6px;
+    box-shadow:
+      0 30px 60px -20px rgba(0,0,0,0.55),
+      0 2px 0 rgba(0,0,0,0.05);
+    transform:rotate(-1.4deg);
+    padding:56px 34px 40px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .grain{
+    position:absolute;
+    inset:0;
+    background-image:
+      radial-gradient(rgba(58,36,50,0.05) 1px, transparent 1px);
+    background-size:3px 3px;
+    mix-blend-mode:multiply;
+    opacity:0.5;
+    pointer-events:none;
+  }
+
+  .tape{
+    position:absolute;
+    width:76px;
+    height:28px;
+    background:rgba(255,241,181,0.55);
+    box-shadow:0 2px 4px rgba(0,0,0,0.15);
+    z-index:3;
+  }
+  .tape-left{ top:-10px; left:26px; transform:rotate(-8deg); }
+  .tape-right{ top:-12px; right:20px; transform:rotate(10deg); }
+
+  /* ---------- screens ---------- */
+
+  .screen{
+    display:none;
+    width:100%;
+    text-align:center;
+    position:relative;
+    z-index:2;
+  }
+
+  .screen.active{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    animation:riseIn 0.55s cubic-bezier(.2,.8,.2,1);
+  }
+
+  @keyframes riseIn{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .eyebrow{
+    margin:0 0 6px;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--rose-dark);
+  }
+
+  .headline{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:52px;
+    line-height:1.05;
+    color:var(--ink);
+    margin:0 0 10px;
+  }
+
+  .headline.big{ font-size:64px; }
+
+  .sub{
+    margin:0 0 30px;
+    font-size:17px;
+    color:var(--muted);
+    font-style:italic;
+  }
+
+  .choices{
+    position:relative;
+    width:100%;
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+  }
+
+  .btn{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:16px;
+    border:none;
+    border-radius:999px;
+    padding:14px 28px;
+    cursor:pointer;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .btn:focus-visible{
+    outline:3px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  .btn-yes{
+    background:var(--rose);
+    color:var(--paper);
+    box-shadow:0 8px 18px -6px rgba(200,65,94,0.6);
+  }
+  .btn-yes:hover{ transform:translateY(-2px) scale(1.03); }
+  .btn-yes:active{ transform:translateY(0) scale(0.97); }
+
+  .btn-no{
+    background:transparent;
+    color:var(--muted);
+    border:1.5px solid var(--paper-shadow);
+  }
+
+  .hint{
+    min-height:18px;
+    margin:16px 0 0;
+    font-size:13px;
+    font-style:italic;
+    color:var(--muted);
+    opacity:0.85;
+  }
+
+  /* ---------- final screen ---------- */
+
+  .screen3{ position:relative; }
+
+  .stamp{
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-size:14px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--rose-dark);
+    border:3px double var(--rose-dark);
+    border-radius:50%;
+    padding:14px 10px;
+    width:96px;
+    height:96px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    transform:rotate(-10deg) scale(1);
+    margin-bottom:14px;
+    animation:stampIn 0.5s cubic-bezier(.3,1.4,.4,1) both;
+    animation-delay:0.2s;
+  }
+
+  @keyframes stampIn{
+    0%{ opacity:0; transform:rotate(-10deg) scale(2.6); }
+    70%{ opacity:1; }
+    100%{ opacity:1; transform:rotate(-10deg) scale(1); }
+  }
+
+  .final-msg{
+    font-size:17px;
+    color:var(--ink);
+    margin:4px 0 18px;
+    line-height:1.5;
+  }
+
+  .final-love{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:38px;
+    color:var(--rose-dark);
+    line-height:1.2;
+    margin:0;
+  }
+
+  .final-love span{
+    color:var(--gold);
+    text-shadow:0 1px 0 rgba(0,0,0,0.05);
+  }
+
+  /* ---------- confetti ---------- */
+
+  .confetti{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:5;
+  }
+
+  .confetti-piece{
+    position:absolute;
+    top:-40px;
+    animation-name:fall;
+    animation-timing-function:ease-in;
+    animation-fill-mode:forwards;
+  }
+
+  @keyframes fall{
+    0%{ transform:translateY(0) rotate(0deg); opacity:1; }
+    100%{ transform:translateY(105vh) rotate(300deg); opacity:0.9; }
+  }
+
+  @media (max-width:420px){
+    .card{ min-height:440px; padding:48px 22px 34px; }
+    .headline{ font-size:42px; }
+    .headline.big{ font-size:52px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+  <main class="stage">
+    <section class="card" id="card">
+      <div class="tape tape-left" aria-hidden="true"></div>
+      <div class="tape tape-right" aria-hidden="true"></div>
+      <div class="grain" aria-hidden="true"></div>
+
+      <div class="screen active" id="screen1">
+        <p class="eyebrow">a very important message</p>
+        <h1 class="headline">i know i messed up,<br>babe...</h1>
+        <p class="sub">forgive me?? 🥺</p>
+        <div class="choices">
+          <button class="btn btn-yes" id="yes1" type="button">yes 🥹</button>
+          <button class="btn btn-no" id="no1" type="button">no</button>
+        </div>
+        <p class="hint" id="hint1" aria-live="polite"></p>
+      </div>
+
+      <div class="screen" id="screen2">
+        <p class="eyebrow">ok but fr fr</p>
+        <h1 class="headline">are you still<br>mad?</h1>
+        <p class="sub">be honest. (jk pls click yes)</p>
+        <div class="choices">
+          <button class="btn btn-yes" id="yes2" type="button">yes</button>
+          <button class="btn btn-no" id="no2" type="button">no</button>
+        </div>
+        <p class="hint" id="hint2" aria-live="polite"></p>
+      </div>
+
+      <div class="screen" id="screen3">
+        <div class="stamp">forgiven&nbsp;✓</div>
+        <h1 class="headline big">yay!! 🎉</h1>
+        <p class="final-msg">thank you for loving me<br>even when i mess up.<br>you're stuck with me now 😌</p>
+        <p class="final-love">i love you so much,<br><span>Deola</span> 💛</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+  const card = document.getElementById('card');
+  const missMsgs = ['nope 😤','nice try','not today','no escape for you','try again','nuh uh 🙅','denied','not happening babe'];
+
+  function bumpMiss(btn){
+    const screen = btn.closest('.screen');
+    const hint = screen.querySelector('.hint');
+    const n = (parseInt(btn.dataset.misses || '0', 10)) + 1;
+    btn.dataset.misses = n;
+    if (hint) hint.textContent = missMsgs[Math.min(n - 1, missMsgs.length - 1)];
+  }
+
+  function initDodge(btn){
+    function reposition(){
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = btn.getBoundingClientRect();
+      const padding = 22;
+      const maxX = Math.max(cardRect.width - btnRect.width - padding * 2, 0);
+      const maxY = Math.max(cardRect.height - btnRect.height - padding * 2, 0);
+      const x = padding + Math.random() * maxX;
+      const y = padding + Math.random() * maxY;
+      btn.style.position = 'absolute';
+      btn.style.left = x + 'px';
+      btn.style.top = y + 'px';
+      bumpMiss(btn);
+    }
+    btn._reposition = reposition;
+    btn.addEventListener('pointerdown', (e) => { e.preventDefault(); reposition(); });
+    btn.addEventListener('focus', reposition);
+    btn.addEventListener('click', (e) => e.preventDefault());
+    btn.addEventListener('contextmenu', (e) => e.preventDefault());
+  }
+
+  const no1 = document.getElementById('no1');
+  const no2 = document.getElementById('no2');
+  initDodge(no1);
+  initDodge(no2);
+
+  // cursor-proximity dodge (desktop only)
+  card.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse' && e.pointerType !== '') return;
+    const activeScreen = card.querySelector('.screen.active');
+    if (!activeScreen) return;
+    const noBtn = activeScreen.querySelector('.btn-no');
+    if (!noBtn || !noBtn._reposition) return;
+    const rect = noBtn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+    if (dist < 85) noBtn._reposition();
+  });
+
+  function goTo(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  document.getElementById('yes1').addEventListener('click', () => goTo('screen2'));
+  document.getElementById('yes2').addEventListener('click', () => {
+    goTo('screen3');
+    launchConfetti();
+  });
+
+  function launchConfetti(){
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const container = document.getElementById('confetti');
+    const pieces = ['💛','💕','✨','💫','🎉'];
+    const burst = reduced ? 0 : 45;
+
+    for (let i = 0; i < burst; i++){
+      spawnPiece(container, pieces);
+    }
+
+    if (!reduced){
+      let ticks = 0;
+      const interval = setInterval(() => {
+        spawnPiece(container, pieces);
+        spawnPiece(container, pieces);
+        ticks++;
+        if (ticks > 20) clearInterval(interval);
+      }, 500);
+    }
+  }
+
+  function spawnPiece(container, pieces){
+    const span = document.createElement('span');
+    span.className = 'confetti-piece';
+    span.textContent = pieces[Math.floor(Math.random() * pieces.length)];
+    span.style.left = Math.random() * 100 + 'vw';
+    span.style.fontSize = (14 + Math.random() * 16) + 'px';
+    const duration = 3.5 + Math.random() * 3;
+    span.style.animationDuration = duration + 's';
+    span.style.animationDelay = (Math.random() * 0.6) + 's';
+    container.appendChild(span);
+    setTimeout(() => span.remove(), (duration + 1) * 1000);
+  }
+</script>
+
+</body>
+</html>
