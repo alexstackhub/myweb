@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>forgive me?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blush-1: #ffeff3;
+    --blush-2: #fff8f0;
+    --card: #fffdfb;
+    --ink: #4a2338;
+    --ink-soft: #8b6b78;
+    --coral-1: #ff6f91;
+    --coral-2: #ff9472;
+    --dodge-bg: #ede1e7;
+    --dodge-ink: #6d4a5b;
+    --shadow: rgba(74, 35, 56, 0.16);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  body {
+    background: radial-gradient(circle at 20% 20%, var(--blush-1), var(--blush-2) 60%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.5;
+    pointer-events: none;
+    animation: drift 14s ease-in-out infinite;
+  }
+  .blob.b1 { width: 260px; height: 260px; background: var(--coral-2); top: -60px; left: -60px; animation-delay: 0s; }
+  .blob.b2 { width: 220px; height: 220px; background: #c9a6ff; bottom: -60px; right: -40px; animation-delay: 3s; }
+  .blob.b3 { width: 160px; height: 160px; background: #7ec8e3; bottom: 20%; left: -40px; animation-delay: 6s; }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(20px, -20px) scale(1.08); }
+  }
+
+  .card {
+    position: relative;
+    z-index: 2;
+    background: var(--card);
+    border-radius: 28px;
+    padding: 48px 40px;
+    max-width: 420px;
+    width: 88vw;
+    max-height: 92vh;
+    overflow-y: auto;
+    text-align: center;
+    box-shadow: 0 24px 60px var(--shadow);
+  }
+
+  .eyebrow {
+    margin: 0 0 6px;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+
+  .headline {
+    font-family: 'Caveat', cursive;
+    font-size: 2.9rem;
+    line-height: 1.15;
+    color: var(--ink);
+    margin: 0 0 10px;
+  }
+
+  .pet {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--coral-1);
+    letter-spacing: 0.02em;
+    vertical-align: middle;
+  }
+
+  .subtext {
+    margin: 0 0 28px;
+    color: var(--ink-soft);
+    font-size: 15px;
+    font-weight: 500;
+    min-height: 20px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    border: none;
+    border-radius: 999px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 14px 30px;
+    font-size: 16px;
+    transition: top 0.35s cubic-bezier(.34,1.56,.64,1), left 0.35s cubic-bezier(.34,1.56,.64,1),
+                transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease, opacity 0.25s ease;
+  }
+
+  .btn:focus-visible {
+    outline: 3px solid #7ec8e3;
+    outline-offset: 3px;
+  }
+
+  .good {
+    background: linear-gradient(135deg, var(--coral-1), var(--coral-2));
+    color: #fff8f5;
+    box-shadow: 0 10px 24px rgba(255, 111, 145, 0.4);
+  }
+  .good:hover { transform: translateY(-2px) scale(1.03); }
+
+  .dodge {
+    background: var(--dodge-bg);
+    color: var(--dodge-ink);
+  }
+
+  .dodge.dodging {
+    position: fixed;
+    z-index: 5;
+  }
+
+  #noPlaceholder {
+    display: none;
+  }
+
+  .heart-trail {
+    position: fixed;
+    z-index: 4;
+    pointer-events: none;
+    font-size: 18px;
+    animation: fadeShrink 0.9s ease forwards;
+  }
+
+  @keyframes fadeShrink {
+    0% { opacity: 0.85; transform: scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: scale(0.4) rotate(20deg) translateY(10px); }
+  }
+
+  .step-enter {
+    animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.85); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .big-heart {
+    font-size: 3.2rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .confetti-piece {
+    position: fixed;
+    top: -12px;
+    border-radius: 2px;
+    pointer-events: none;
+    animation: fall linear forwards;
+    z-index: 6;
+  }
+
+  @keyframes fall {
+    0%   { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(340deg); opacity: 0.9; }
+  }
+
+  @media (max-width: 400px), (max-height: 480px) {
+    .card { padding: 36px 24px; }
+    .headline { font-size: 2.2rem; }
+    .btn { padding: 12px 22px; font-size: 15px; }
+    .big-heart { font-size: 2.6rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: background 0.3s ease; }
+    .blob { animation: none; }
+    .heart-trail { display: none; }
+    .step-enter { animation: none; }
+    .confetti-piece { animation-duration: 0.01s !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <div class="card" id="card"></div>
+
+<script>
+  const card = document.getElementById('card');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const steps = {
+    1: {
+      eyebrow: "a small apology",
+      headline: "I might have messed up…<br>forgive me?",
+      subtextDefault: "(no pressure, but also, please)",
+      goodLabel: "Yes",
+      dodgeLabel: "No",
+      messages: [
+        "just a simple yes or no…",
+        "hey, come back here",
+        "the button is faster than you think",
+        "okay this is getting a little embarrassing",
+        "I have nowhere else to go, honestly",
+        "at this point it's basically cardio",
+        "I will wait here forever if I have to",
+        "forever is a long time though",
+        "…still no?",
+        "you know yes is right there"
+      ],
+      next: 2
+    },
+    2: {
+      eyebrow: "one more thing",
+      headline: "okay…<br>but are you still mad at me?",
+      subtextDefault: "(be honest. or don't. just click no)",
+      goodLabel: "No",
+      dodgeLabel: "Yes",
+      messages: [
+        "hmm, that wasn't a no",
+        "still dodging the question, huh",
+        "I'll take that as a maybe",
+        "come on, let it go a little",
+        "this button is very committed to running",
+        "we both know where this is going",
+        "no is right there, promise it's painless",
+        "I'm not going anywhere either"
+      ],
+      next: 'final'
+    }
+  };
+
+  function clearTrails() {
+    document.querySelectorAll('.heart-trail').forEach(h => h.remove());
+  }
+
+  function pickPosition(width, height) {
+    const margin = 16;
+    const cardRect = card.getBoundingClientRect();
+    let left, top, tries = 0;
+    do {
+      left = margin + Math.random() * (window.innerWidth - width - margin * 2);
+      top = margin + Math.random() * (window.innerHeight - height - margin * 2);
+      tries++;
+    } while (
+      tries < 6 &&
+      left < cardRect.right + 20 && left + width > cardRect.left - 20 &&
+      top < cardRect.bottom + 20 && top + height > cardRect.top - 20
+    );
+    return { left, top };
+  }
+
+  function dropTrailHeart(x, y) {
+    if (reduceMotion) return;
+    const heart = document.createElement('span');
+    heart.className = 'heart-trail';
+    heart.textContent = '💗';
+    heart.style.left = x + 'px';
+    heart.style.top = y + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 900);
+  }
+
+  function wireDodge({ dodgeBtn, placeholder, goodBtn, subtext, messages }) {
+    let attempts = 0;
+    let dodging = false;
+
+    function dodge() {
+      const rect = dodgeBtn.getBoundingClientRect();
+
+      if (!dodging) {
+        placeholder.style.width = rect.width + 'px';
+        placeholder.style.height = rect.height + 'px';
+        placeholder.style.display = 'inline-block';
+
+        dodgeBtn.style.width = rect.width + 'px';
+        dodgeBtn.style.left = rect.left + 'px';
+        dodgeBtn.style.top = rect.top + 'px';
+        dodgeBtn.classList.add('dodging');
+        dodging = true;
+      }
+
+      dropTrailHeart(rect.left + rect.width / 2 - 9, rect.top + rect.height / 2 - 9);
+
+      const box = dodgeBtn.getBoundingClientRect();
+      const { left, top } = pickPosition(box.width, box.height);
+      dodgeBtn.style.left = left + 'px';
+      dodgeBtn.style.top = top + 'px';
+
+      attempts++;
+      subtext.textContent = messages[Math.min(attempts - 1, messages.length - 1)];
+
+      const growth = Math.min(attempts * 0.035, 0.4);
+      goodBtn.style.transform = `scale(${1 + growth})`;
+
+      const shrink = Math.max(1 - attempts * 0.02, 0.75);
+      dodgeBtn.style.fontSize = (16 * shrink) + 'px';
+      dodgeBtn.style.opacity = Math.max(1 - attempts * 0.015, 0.6);
+    }
+
+    dodgeBtn.addEventListener('mouseenter', dodge);
+    dodgeBtn.addEventListener('click', dodge);
+    dodgeBtn.addEventListener('touchstart', (e) => { e.preventDefault(); dodge(); }, { passive: false });
+  }
+
+  function renderStep(n) {
+    clearTrails();
+    const s = steps[n];
+    card.innerHTML = `
+      <div class="step-enter">
+        <p class="eyebrow">${s.eyebrow}</p>
+        <h1 class="headline">${s.headline}</h1>
+        <p class="subtext" id="subtext">${s.subtextDefault}</p>
+        <div class="buttons">
+          <button class="btn good" id="goodBtn">${s.goodLabel}</button>
+          <button class="btn dodge" id="dodgeBtn">${s.dodgeLabel}</button>
+          <span id="noPlaceholder"></span>
+        </div>
+      </div>
+    `;
+
+    const goodBtn = document.getElementById('goodBtn');
+    const dodgeBtn = document.getElementById('dodgeBtn');
+    const placeholder = document.getElementById('noPlaceholder');
+    const subtext = document.getElementById('subtext');
+
+    wireDodge({ dodgeBtn, placeholder, goodBtn, subtext, messages: s.messages });
+
+    goodBtn.addEventListener('click', () => {
+      if (s.next === 'final') {
+        renderFinal();
+      } else {
+        renderStep(s.next);
+      }
+    });
+  }
+
+  function burstConfetti(count) {
+    const colors = ['#ff6f91', '#ffd166', '#6fcf97', '#7ec8e3', '#c9a6ff'];
+    const n = reduceMotion ? 0 : count;
+    for (let i = 0; i < n; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      const size = 6 + Math.random() * 6;
+      piece.style.width = size + 'px';
+      piece.style.height = (size * 1.6) + 'px';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2.4 + Math.random() * 2) + 's';
+      piece.style.animationDelay = (Math.random() * 0.5) + 's';
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 5000);
+    }
+  }
+
+  function renderFinal() {
+    clearTrails();
+    card.innerHTML = `
+      <div class="step-enter">
+        <span class="big-heart">🩷</span>
+        <h1 class="headline">I love you,<br>Deola <span class="pet">(Baby)</span></h1>
+        <p class="subtext" style="margin-bottom:0;">always.</p>
+      </div>
+    `;
+    burstConfetti(90);
+  }
+
+  renderStep(1);
+</script>
+
+</body>
+</html>
